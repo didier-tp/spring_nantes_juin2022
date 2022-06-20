@@ -31,7 +31,7 @@ public class TestCompteDao {
 		Long numCptA = compteA.getNumero();
 		//Compte compteARelu = compteDao.findById(numCptA).get(); //renvoi exception si pas trouvé
 		Compte compteARelu = compteDao.findById(numCptA).orElse(null);
-		logger.debug("compteARelu="+compteARelu.toString());
+		logger.info("compteARelu="+compteARelu.toString());
 		Assertions.assertEquals("compteA",compteARelu.getLabel());
 		Assertions.assertEquals(50.0,compteARelu.getSolde(),0.0001);
 	}
