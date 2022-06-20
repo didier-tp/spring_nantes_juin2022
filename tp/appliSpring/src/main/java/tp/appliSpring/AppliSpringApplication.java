@@ -3,6 +3,9 @@ package tp.appliSpring;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+//NB: @SpringBootApplication est un équivalent
+//de @Configuration + @EnableAutoConfiguration + @ComponentScan/current package
+
 @SpringBootApplication
 public class AppliSpringApplication {
 
