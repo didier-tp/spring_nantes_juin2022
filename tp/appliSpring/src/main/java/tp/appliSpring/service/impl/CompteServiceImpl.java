@@ -27,8 +27,12 @@ public class CompteServiceImpl implements CompteService {
 	
 	@Override
 	public List<Compte> comptesDuClient(long numClient) {
+		/*
 		Client client = clientDao.findById(numClient).get();
-		return client.getComptes(); //lazy exception
+		return client.getComptes(); //lazy exception (mauvaise solution)
+		*/
+		//return compteDao.findByClientNumero(numClient);
+		return compteDao.findByClientNumeroQueJaime(numClient);
 	}
 
 	@Override

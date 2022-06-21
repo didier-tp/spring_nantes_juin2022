@@ -18,5 +18,11 @@ public interface CompteDao extends CrudRepository<Compte,Long>{
 	 */
 	
 	List<Compte> findBySoldeLessThan(double soldeMini);
+
+	List<Compte> findByClientNumero(long numClient); //via convention de nom de méthode
+	//(N)umero est une sous partie de (Client) lui même une sous partie de entity.Compte
+	
+	//sera codé via @NamedQuery() de name="Compte.findByClientNumeroQueJaime"
+	List<Compte> findByClientNumeroQueJaime(long numClient);
 	 
 }

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="COMPTE")
 @NamedQuery(name = "Compte.findAll" , query="SELECT c FROM Compte c")
+@NamedQuery(name = "Compte.findByClientNumeroQueJaime" , 
+                    query = "SELECT cpt FROM Compte cpt WHERE cpt.client.numero = ?1")
 public class Compte {
 	
 	@Id
