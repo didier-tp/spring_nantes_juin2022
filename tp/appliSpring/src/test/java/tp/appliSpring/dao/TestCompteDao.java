@@ -1,6 +1,8 @@
 package tp.appliSpring.dao;
 
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,5 +37,21 @@ public class TestCompteDao {
 		logger.debug("compteARelu="+compteARelu.toString());
 		Assertions.assertEquals("compteA",compteARelu.getLabel());
 		Assertions.assertEquals(50.0,compteARelu.getSolde(),0.0001);
+	}
+	
+	@Test()
+	void testDao2() {
+		Compte compteA = compteDao.save(new Compte(null,"compteA",50.0));
+		Compte compteB = compteDao.save(new Compte(null,"compteB",-50.0));
+		Compte compteC = compteDao.save(new Compte(null,"compteC",150.0));
+		Compte compteD = compteDao.save(new Compte(null,"compteD",-150.0));
+		
+        List<Compte> comptes = (List<Compte>) compteDao.findAll();
+        Assertions.assertTrue(comptes.size()>=4);
+        logger.debug("all comptes:" + comptes);
+        
+        List<Compte> comptesAvecDecouvert =  compteDao.findBySoldeLessThan(0.0);
+        Assertions.assertTrue(comptesAvecDecouvert.size()>=2);
+        logger.debug("comptesAvecDecouvert:" + comptesAvecDecouvert);
 	}
 }

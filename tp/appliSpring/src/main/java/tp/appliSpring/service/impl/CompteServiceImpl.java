@@ -2,10 +2,10 @@ package tp.appliSpring.service.impl;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import tp.appliSpring.dao.CompteDao;
 import tp.appliSpring.entity.Compte;
@@ -29,7 +29,7 @@ public class CompteServiceImpl implements CompteService {
 
 	@Override
 	public List<Compte> tousLesComptes() {
-		return compteDao.findAll();
+		return (List<Compte>) compteDao.findAll(); //caster Iterable en List ou bien ...
 	}
 
 	@Override
@@ -37,17 +37,31 @@ public class CompteServiceImpl implements CompteService {
 		//return compteDao.findById(numeroCompte).get(); //return exception si empty
 		return compteDao.findById(numeroCompte).orElse(null); //return null if not null
 	}
-
-	@Override
-	@Transactional
+	
+	
+	/*
+	//sans @Tansactional = pas bien !!!! (4 petites transactions séparées sur le dao)
 	public void effectuerVirement(double montant, long numCptDeb, long numCptCred) {
 		Compte compteDeb = compteDao.findById(numCptDeb).get();
-        compteDeb.setSolde(compteDeb.getSolde() - montant);
-        compteDao.save(compteDeb);//pas nécessaire si @Transactional
+        compteDeb.setSolde(compteDeb.getSolde() - montant); //modif à l'état détaché
+        compteDao.save(compteDeb);
         
         Compte compteCred = compteDao.findById(numCptCred).get();
-        compteCred.setSolde(compteCred.getSolde() + montant);
-        compteDao.save(compteCred);//pas nécessaire si @Transactional
+        compteCred.setSolde(compteCred.getSolde() + montant); //modif à l'état détaché
+        compteDao.save(compteCred);
+	}
+	 */
+
+	@Override
+	@Transactional(/*propagation = Propagation.REQUIRED*/)
+	public void effectuerVirement(double montant, long numCptDeb, long numCptCred) {
+		Compte compteDeb = compteDao.findById(numCptDeb).get();
+        compteDeb.setSolde(compteDeb.getSolde() - montant); //à l'état persistant
+        //compteDao.save(compteDeb);//pas nécessaire si @Transactional
+        
+        Compte compteCred = compteDao.findById(numCptCred).get();
+        compteCred.setSolde(compteCred.getSolde() + montant); //à l'état persistant
+        //compteDao.save(compteCred);//pas nécessaire si @Transactional
 	}
 
 	@Override
