@@ -16,6 +16,7 @@ import tp.appliSpring.entity.Compte;
 //@RunWith(SpringRunner.class) //si junit 4
 @ExtendWith(SpringExtension.class) //si junit5/jupiter
 @SpringBootTest(classes= {AppliSpringApplication.class}) //meme config que classe avec main()
+//@DataJpaTest //better of SpringBootTest for dao testing if use of spring-data-jpa extension
 public class TestCompteDao {
 	
 	private static Logger logger = LoggerFactory.getLogger(TestCompteDao.class);
@@ -31,7 +32,7 @@ public class TestCompteDao {
 		Long numCptA = compteA.getNumero();
 		//Compte compteARelu = compteDao.findById(numCptA).get(); //renvoi exception si pas trouvé
 		Compte compteARelu = compteDao.findById(numCptA).orElse(null);
-		logger.info("compteARelu="+compteARelu.toString());
+		logger.debug("compteARelu="+compteARelu.toString());
 		Assertions.assertEquals("compteA",compteARelu.getLabel());
 		Assertions.assertEquals(50.0,compteARelu.getSolde(),0.0001);
 	}

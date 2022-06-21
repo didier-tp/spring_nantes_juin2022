@@ -2,6 +2,8 @@ package tp.appliSpring.service.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,7 @@ public class CompteServiceImpl implements CompteService {
 	}
 
 	@Override
+	@Transactional
 	public void effectuerVirement(double montant, long numCptDeb, long numCptCred) {
 		Compte compteDeb = compteDao.findById(numCptDeb).get();
         compteDeb.setSolde(compteDeb.getSolde() - montant);
