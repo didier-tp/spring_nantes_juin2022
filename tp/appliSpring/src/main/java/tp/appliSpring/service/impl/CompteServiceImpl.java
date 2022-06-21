@@ -4,10 +4,11 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import tp.appliSpring.dao.ClientDao;
 import tp.appliSpring.dao.CompteDao;
+import tp.appliSpring.entity.Client;
 import tp.appliSpring.entity.Compte;
 import tp.appliSpring.service.CompteService;
 
@@ -21,10 +22,13 @@ public class CompteServiceImpl implements CompteService {
 	//pour que ça pointe vers un commposant spring qui est compatible avec l'interface
 	private CompteDao compteDao=null;
 	
+	@Autowired
+	private ClientDao clientDao;
+	
 	@Override
 	public List<Compte> comptesDuClient(long numClient) {
-		// sera codé ultérieurement
-		return null;
+		Client client = clientDao.findById(numClient).get();
+		return client.getComptes(); //lazy exception
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package tp.appliSpring.service;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import tp.appliSpring.AppliSpringApplication;
-import tp.appliSpring.dao.TestCompteDao;
+import tp.appliSpring.dao.ClientDao;
+import tp.appliSpring.entity.Client;
 import tp.appliSpring.entity.Compte;
 
 @ExtendWith(SpringExtension.class) //si junit5/jupiter
@@ -22,6 +25,31 @@ public class TestCompteService {
 	
 	@Autowired
 	private CompteService compteService; //à tester
+	
+	@Autowired
+	private ClientDao clientDao; //pour aider à tester (jeux de données)
+	
+	
+	@Test
+	public void testComptesDuClient() {
+		Client client1 = clientDao.save(new Client(null,"jean","Bon"));
+		Compte compte1A = new Compte(null,"compte1A",50.0);
+		compte1A.setClient(client1);
+		compteService.sauvegarderCompte(compte1A);
+		Compte compte1B = new Compte(null,"compte1B",80.0);
+		compte1B.setClient(client1);
+		compteService.sauvegarderCompte(compte1B);
+		
+		Client client2 = clientDao.save(new Client(null,"alex","Therieur"));
+		Compte compte2A = new Compte(null,"compte2A",30.0);
+		compte2A.setClient(client2);
+		compteService.sauvegarderCompte(compte2A);
+		
+		List<Compte> comptesDuClient1 = compteService.comptesDuClient(client1.getNumero());
+		logger.debug("comptesDuClient1=" + comptesDuClient1);
+		Assertions.assertTrue(comptesDuClient1.size()==2);
+
+	}
 	
 	@Test
 	public void testBonTransfert() {

@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -22,6 +24,10 @@ public class Compte {
 	private String label;
 	
 	private Double solde;
+	
+	@ManyToOne
+	@JoinColumn(name="num_client") //nom colonne clef etrangere = "num_client"
+	private Client client; //+get/set mais pas dans toString()
 	
 	//+get/set , +toString() + constructeurs
 	public Compte() {
@@ -65,6 +71,18 @@ public class Compte {
 	}
 	public void setSolde(Double solde) {
 		this.solde = solde;
+	}
+
+
+
+	public Client getClient() {
+		return client;
+	}
+
+
+
+	public void setClient(Client client) {
+		this.client = client;
 	}
 	
 	
