@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import tp.appliSpring.AppliSpringApplication;
@@ -19,6 +20,8 @@ import tp.appliSpring.entity.Compte;
 @ExtendWith(SpringExtension.class) //si junit5/jupiter
 @SpringBootTest(classes= {AppliSpringApplication.class}) //meme config que classe avec main()
 //@DataJpaTest //better of SpringBootTest for dao testing if use of spring-data-jpa extension
+@ActiveProfiles({"remoteDb"})
+//@ActiveProfiles({"embbededDb"})
 public class TestCompteDao {
 	
 	private static Logger logger = LoggerFactory.getLogger(TestCompteDao.class);
