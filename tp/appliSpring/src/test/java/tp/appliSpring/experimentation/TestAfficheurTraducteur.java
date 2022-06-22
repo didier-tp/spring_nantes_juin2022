@@ -12,7 +12,8 @@ import tp.appliSpring.AppliSpringApplication;
 
 @ExtendWith(SpringExtension.class) //si junit5/jupiter
 @SpringBootTest(classes= {AppliSpringApplication.class}) 
-public class TestAfficheurTraducteur {
+//@SpringBootTest(classes= {AppliSpringApplication.class , TraducteurConfig.class}) si TraducteurConfig dans package tpa et pas dans tp.appliSpring
+ class TestAfficheurTraducteur {
 	
 	
 	private static Logger logger = LoggerFactory.getLogger(TestAfficheurTraducteur.class);
