@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +61,18 @@ public class CompteRestCrtl {
     	return comptes.stream()
     			.map((Compte c) -> new CompteDto(c.getNumero(),c.getLabel(),c.getSolde()))
     			.collect(Collectors.toList());
+    }
+    
+    //url = http://localhost:8080/appliSpring/api-bank/compte
+    //appelée en mode POST avec { "label" : "compteXy" , "solde" : 50.0 } dans body de request
+    @PostMapping("")
+    public CompteDto postCompte(@RequestBody CompteDto compteDto) {
+    	Compte compte = new Compte(null,compteDto.getLabel(),compteDto.getSolde());
+    	Compte compteSauvegarde = this.compteService.sauvegarderCompte(compte);
+    	//ameliorable via try/catch
+    	return new CompteDto(compteSauvegarde.getNumero(),
+    			             compteSauvegarde.getLabel(),
+    			             compteSauvegarde.getSolde());
     }
 	
 
