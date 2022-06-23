@@ -15,6 +15,7 @@ public class AppliSpringApplication {
 		//SpringApplication.run(AppliSpringApplication.class, args);
 		SpringApplication app = new SpringApplication(AppliSpringApplication.class);
 		app.setAdditionalProfiles("embeddedDb","init");
+		//ou bien java .... -Dspring.profiles.active=init,embeddedDb dans .bat ou .sh
 		ConfigurableApplicationContext context = app.run(args);
 		System.out.println("http://localhost:8080/appliSpring");
 	}
