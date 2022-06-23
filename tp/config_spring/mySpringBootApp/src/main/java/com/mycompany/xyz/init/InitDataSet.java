@@ -13,20 +13,20 @@ import com.mycompany.xyz.repository.RepositoryClient;
 import com.mycompany.xyz.repository.RepositoryCompte;
 import com.mycompany.xyz.service.ServiceDevise;
 
-
+@Component
 @Profile({"initDataSet"})
 public class InitDataSet {
 	
-  
+  @Autowired
 	private ServiceDevise serviceDevise;
    
-   
+  @Autowired
    private RepositoryClient repositoryClient;
    
-   
+  @Autowired
    private RepositoryCompte repositoryCompte;
 	
-	//@PostConstruct
+	@PostConstruct
 	public void init() {
 		//repositoryClient.save(new Client(1L,"client1"));
 		Client client1 = repositoryClient.save(new Client(null,"client1"));

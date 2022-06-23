@@ -14,11 +14,12 @@ import com.mycompany.xyz.entity.Devise;
 import com.mycompany.xyz.service.ServiceDevise;
 
 
-//@RestController  //@RestController est un cas particulier de @Component
+@RestController  //@RestController est un cas particulier de @Component
 //@CrossOrigin(origins = "*")
 @RequestMapping(value="/devise-api-rest" , headers="Accept=application/json")
 public class DeviseRestCtrl {
 	
+	@Autowired
 	private ServiceDevise serviceDevise;
 	
 	//http://localhost:8181/mySpringBootApp/devise-api-rest/public/devise/EUR

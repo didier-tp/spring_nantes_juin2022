@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Configuration;
  https://docs.spring.io/spring-boot/docs/2.1.18.RELEASE/reference/html/boot-features-developing-auto-configuration.html
  */
 @Configuration
-//@ConfigurationPropertiesScan("org.mygeneric.encadreur.properties")
+@ConfigurationPropertiesScan("org.mygeneric.encadreur.properties")
 //eventuel @AutoConfigureAfter ou @AutoConfigureBefore ou ...
 public class MyEncadreurAutoConfiguration {
 	
@@ -44,8 +44,8 @@ public class MyEncadreurAutoConfiguration {
 	}
 	*/
 	
-	@Bean
-	@ConditionalOnMissingBean(type = { "org.mygeneric.encadreur.Prefixeur" })
+    @Bean
+    @ConditionalOnMissingBean(type = { "org.mygeneric.encadreur.Prefixeur" })
 	public Prefixeur monPrefixeurSpring() {
 		//System.out.println("encadreurProperties="+encadreurProperties);
 		if(encadreurProperties!=null && encadreurProperties.getPrefixeur()!=null) {
@@ -73,15 +73,16 @@ public class MyEncadreurAutoConfiguration {
 		}
 	}
 	 
-	@Bean
+	
 	@ConditionalOnMissingBean(type = { "org.mygeneric.encadreur.Encadreur" })
     @ConditionalOnMissingClass("org.mygeneric.fmt.MyFormatter")
+	@Bean
 	public Encadreur monEncadreurSpringSansFormatter(Prefixeur prefixeur,
 			                            Suffixeur suffixeur) {
 		return new EncadreurAvecPrefixeEtSuffixe(prefixeur,suffixeur);
 	}
 	
-   
+    
 	@Bean
 	@ConditionalOnMissingBean(type = { "org.mygeneric.encadreur.Encadreur" })
 	@ConditionalOnClass(name = "org.mygeneric.fmt.MyFormatter")

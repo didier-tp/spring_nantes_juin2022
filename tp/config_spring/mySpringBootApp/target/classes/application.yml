@@ -13,11 +13,11 @@ spring:
 
 encadreur:
   prefixeur:
-    affixe: '>>'
-    separateur: '-o-'
+    affixe: '>>>'
+    separateur: '-x-'
   suffixeur:
-    affixe: '<<'
-    separateur: '-o-'
+    affixe: '<<<'
+    separateur: '-x-'
 
 #si elements de liste en .yml .yaml
 #liste:

@@ -7,7 +7,7 @@ import org.mygeneric.encadreur.impl.SuffixeurAvecSperateurEgal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-//@Configuration
+@Configuration
 
 //pas besoin de @Import({MyEncadreurAutoConfiguration.class})
 //car META-INF/spring.factories mentionnant
@@ -29,5 +29,5 @@ public class MyExplicitJavaConfigV2 {
 	public Suffixeur monSuffixeurSpringAvecEgal() {
 		return new SuffixeurAvecSperateurEgal("**");
 	}
-   */
+    */
 }
