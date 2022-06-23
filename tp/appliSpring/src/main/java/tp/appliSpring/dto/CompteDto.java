@@ -1,12 +1,20 @@
 package tp.appliSpring.dto;
 
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.Length;
+
 //DTO = Data Transfert Object 
 //Concept proche : VO : Value Object (ou view)
 
 public class CompteDto {
      
 	private Long num;
+	
+	@Length(min=3,message="label doit avoir au moins 3 caracteres")
 	private String label;
+	
+	@Min(10)
 	private Double solde;
 	
 	//+get/set, constructeurs , toString()

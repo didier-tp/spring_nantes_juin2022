@@ -3,6 +3,8 @@ package tp.appliSpring.rest;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -65,11 +67,12 @@ public class CompteRestCrtl {
     
     //url = http://localhost:8080/appliSpring/api-bank/compte
     //appelée en mode POST avec { "label" : "compteXy" , "solde" : 50.0 } dans body de request
+    //à tester avec postman (body/raw/Content-Type = application/json)
     @PostMapping("")
-    public CompteDto postCompte(@RequestBody CompteDto compteDto) {
+    public CompteDto postCompte(@RequestBody @Valid CompteDto compteDto) {
     	Compte compte = new Compte(null,compteDto.getLabel(),compteDto.getSolde());
     	Compte compteSauvegarde = this.compteService.sauvegarderCompte(compte);
-    	//ameliorable via try/catch
+    	//ameliorable via try/catch et ResponseEntity
     	return new CompteDto(compteSauvegarde.getNumero(),
     			             compteSauvegarde.getLabel(),
     			             compteSauvegarde.getSolde());
