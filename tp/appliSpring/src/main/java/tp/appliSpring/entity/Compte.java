@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="COMPTE")
 @NamedQuery(name = "Compte.findAll" , query="SELECT c FROM Compte c")
@@ -29,6 +31,7 @@ public class Compte {
 	
 	@ManyToOne
 	@JoinColumn(name="num_client") //nom colonne clef etrangere = "num_client"
+	//@JsonIgnore //utile que si pas de DTO
 	private Client client; //+get/set mais pas dans toString()
 	
 	//+get/set , +toString() + constructeurs

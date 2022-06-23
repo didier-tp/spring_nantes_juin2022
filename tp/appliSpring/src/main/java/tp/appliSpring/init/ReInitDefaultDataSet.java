@@ -25,10 +25,16 @@ public class ReInitDefaultDataSet {
 	public void initDataSet() {
 		
 		Client c1 =  clientDao.save(new Client(null,"jean","Bon"));
+		
 		Compte cptA = new Compte(null,"compteA",50.0);
 		cptA.setClient(c1);
 		compteService.sauvegarderCompte(cptA);
-		compteService.sauvegarderCompte(new Compte(null,"compteB",150.0));
+		
+		Compte cptB =new Compte(null,"compteB",150.0);
+		cptB.setClient(c1);
+		compteService.sauvegarderCompte(cptB);
+		
 		compteService.sauvegarderCompte(new Compte(null,"compteC",250.0));
+		compteService.sauvegarderCompte(new Compte(null,"compteD",300.0));
 	}
 }

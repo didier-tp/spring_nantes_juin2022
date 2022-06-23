@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="CLIENT")
 //@NamedQuery(name = "Compte.findAll" , query="SELECT c FROM Compte c")
@@ -28,6 +30,7 @@ public class Client {
 	@OneToMany(mappedBy = "client") 
 	//mappedBy du coté secondaire/inverse de la relation bi-directionnelle
 	//valeur de mappedBy = nom java au dessus duquel on trouve @ManyToOne
+	@JsonIgnore //utile que si pas de DTO
 	private List<Compte> comptes = new ArrayList<>(); //+get/set
 	
 

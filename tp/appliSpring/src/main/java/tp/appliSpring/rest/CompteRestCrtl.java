@@ -1,12 +1,15 @@
 package tp.appliSpring.rest;
 
-import org.springframework.http.HttpStatus;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import tp.appliSpring.dto.CompteDto;
 import tp.appliSpring.entity.Compte;
 import tp.appliSpring.exception.NotFoundException;
 import tp.appliSpring.service.CompteService;
@@ -23,36 +26,40 @@ public class CompteRestCrtl {
 		this.compteService = compteService;
 	}
 
-     /*
-    //url = http://localhost:8080/appliSpring/api-bank/compte/1
-    @GetMapping("/{numCompte}")
-	public Compte getCompteByNum(@PathVariable("numCompte")Long numCpt) {
-		return compteService.compteSelonNumero(numCpt);
-	}
-     */
-	
-	/*
-	//url = http://localhost:8080/appliSpring/api-bank/compte/1
-    @GetMapping("/{numCompte}")
-	public ResponseEntity<Compte> getCompteByNum(@PathVariable("numCompte")Long numCpt) {
-		Compte compte =  compteService.compteSelonNumero(numCpt);
-		if(compte!=null)
-			return new ResponseEntity<Compte>(compte,HttpStatus.OK);
-		else
-			return new ResponseEntity<Compte>(HttpStatus.NOT_FOUND);
-	}
-	*/
     
     //url = http://localhost:8080/appliSpring/api-bank/compte/1
     @GetMapping("/{numCompte}")
-   	public Compte getCompteByNum(@PathVariable("numCompte")Long numCpt) {
+   	public CompteDto getCompteByNum(@PathVariable("numCompte")Long numCpt) {
    		Compte compte = compteService.compteSelonNumero(numCpt);
    		if(compte!=null) 
-   			return compte;
+   			return new CompteDto(compte.getNumero(),compte.getLabel(),compte.getSolde());
+   		    
    		else 
    			throw new NotFoundException("compte " + numCpt + " pas trouve" );
    		//NB: au dessus de NotFoundException il y a @ResponseStatus(HttpStatus.NOT_FOUND)
    	}
+    
+    /*
+     variantes pour construire DTO depuis Entity:
+       - constructeur de DTO
+       - BeanUtils.copyProperties(source, target)
+       - ou api spécialisées (ObjectMapper ou autres)
+       - record de java17
+     */
+    
+    //url = http://localhost:8080/appliSpring/api-bank/compte
+    //   ou http://localhost:8080/appliSpring/api-bank/compte?numClient=1
+    @GetMapping("")
+   	public List<CompteDto> getComptesByCriteria(@RequestParam(value="numClient",required=false) Long numClient) {
+    	List<Compte> comptes = null;
+    	if(numClient==null) 
+    		comptes = compteService.tousLesComptes();
+    	else 
+    		comptes = compteService.comptesDuClient(numClient);
+    	return comptes.stream()
+    			.map((Compte c) -> new CompteDto(c.getNumero(),c.getLabel(),c.getSolde()))
+    			.collect(Collectors.toList());
+    }
 	
 
 }
