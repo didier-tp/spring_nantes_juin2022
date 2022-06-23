@@ -1,12 +1,12 @@
 package com.mycompany.xyz.test;
 
 //pour assertTrue (res==5) au lieu de Assertions.assertTrue(res==5)
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -15,7 +15,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.mycompany.xyz.MySpringBootApplication;
 import com.mycompany.xyz.entity.Client;
 import com.mycompany.xyz.entity.Compte;
-import com.mycompany.xyz.entity.Devise;
 import com.mycompany.xyz.repository.RepositoryClient;
 import com.mycompany.xyz.repository.RepositoryCompte;
 import com.mycompany.xyz.service.ServiceCompte;
@@ -24,6 +23,8 @@ import com.mycompany.xyz.service.ServiceCompte;
 @SpringBootTest(classes= {MySpringBootApplication.class})
 @ActiveProfiles("embeddedDb")
 public class TestServiceCompte {
+	
+	private static Logger logger = LoggerFactory.getLogger(TestServiceCompte.class);
 	
 	@Autowired
 	   private RepositoryClient repositoryClient;
@@ -48,11 +49,11 @@ public class TestServiceCompte {
 		init();
 		double solde1Avant = serviceCompte.rechercherCompteParNumero(1L).getSolde();
 		double solde2Avant = serviceCompte.rechercherCompteParNumero(2L).getSolde();
-		System.out.println("avant bon transfert : "+  solde1Avant + "    ,    " + solde2Avant );
+		logger.debug("avant bon transfert : "+  solde1Avant + "    ,    " + solde2Avant );
 		serviceCompte.transferer(50.0, 1, 2);
 		double solde1Apres = serviceCompte.rechercherCompteParNumero(1L).getSolde();
 		double solde2Apres = serviceCompte.rechercherCompteParNumero(2L).getSolde();
-		System.out.println("apres bon transfert: "+  solde1Apres + "    ,    " + solde2Apres );
+		logger.debug("apres bon transfert: "+  solde1Apres + "    ,    " + solde2Apres );
 		assertEquals(solde1Avant-50,solde1Apres,0.0001);
 		assertEquals(solde2Avant+50,solde2Apres,0.0001);
 	}
@@ -62,16 +63,16 @@ public class TestServiceCompte {
 		init();
 		double solde1Avant = serviceCompte.rechercherCompteParNumero(1L).getSolde();
 		double solde2Avant = serviceCompte.rechercherCompteParNumero(2L).getSolde();
-		System.out.println("avant mauvais transfert: "+  solde1Avant + "    ,    " + solde2Avant );
+		logger.debug("avant mauvais transfert: "+  solde1Avant + "    ,    " + solde2Avant );
 		try {
 			serviceCompte.transferer(50.0, 1, -2);
 		} catch (Exception e) {
-		   System.err.println(e.getMessage());
+		   logger.error(e.getMessage());
 			//e.printStackTrace();
 		}
 		double solde1Apres = serviceCompte.rechercherCompteParNumero(1L).getSolde();
 		double solde2Apres = serviceCompte.rechercherCompteParNumero(2L).getSolde();
-		System.out.println("apres mauvais transfert: "+  solde1Apres + "    ,    " + solde2Apres );
+		logger.debug("apres mauvais transfert: "+  solde1Apres + "    ,    " + solde2Apres );
 		assertEquals(solde1Avant-0,solde1Apres,0.0001);
 		assertEquals(solde2Avant+0,solde2Apres,0.0001);
 	}

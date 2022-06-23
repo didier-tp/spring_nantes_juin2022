@@ -2,6 +2,8 @@ package com.mycompany.xyz.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,15 +12,19 @@ import com.mycompany.xyz.exception.MyGenericException;
 import com.mycompany.xyz.exception.NotFoundException;
 import com.mycompany.xyz.repository.RepositoryCompte;
 
+
 @Service
 @Transactional(/* propagation = Propagation.REQUIRED par defaut */)
 public class ServiceCompteImpl implements ServiceCompte {
+	
+	private static Logger logger = LoggerFactory.getLogger(ServiceCompteImpl.class);
 	
 	private RepositoryCompte repositoryCompte;
 	
     //constructeur pour injection
 	public ServiceCompteImpl(RepositoryCompte repositoryCompte) {
 		this.repositoryCompte = repositoryCompte;
+		logger.debug("ServiceCompteImpl instance="+this.toString() );
 	}
 
 	@Override

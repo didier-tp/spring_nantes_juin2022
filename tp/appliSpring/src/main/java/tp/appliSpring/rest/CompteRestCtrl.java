@@ -20,12 +20,12 @@ import tp.appliSpring.service.CompteService;
 
 @RestController
 @RequestMapping(value="/api-bank/compte" , headers="Accept=application/json")
-public class CompteRestCrtl {
+public class CompteRestCtrl {
 	
 	private CompteService compteService;
 	
 	
-	public CompteRestCrtl(CompteService compteService) {
+	public CompteRestCtrl(CompteService compteService) {
 		super(); //injection de dépendance par construteur
 		this.compteService = compteService;
 	}

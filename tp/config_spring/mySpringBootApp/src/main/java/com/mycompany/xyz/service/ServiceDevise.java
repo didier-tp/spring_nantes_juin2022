@@ -10,7 +10,7 @@ public interface ServiceDevise {
    List<Devise> rechercherDevisesParChangeMini(Double changeMini);
    double convertir(double montant, 
 		            String codeDeviseSource, 
-		            String codeDeviseCible);
+		            String codeDeviseCible)  throws NotFoundException;
    //..
    Devise createDevise(Devise d);
    void updateDevise(Devise d);

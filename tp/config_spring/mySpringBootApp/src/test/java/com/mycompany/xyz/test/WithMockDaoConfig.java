@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Profile;
 
 import com.mycompany.xyz.repository.RepositoryDevise;
 
+//NB: cette classe associée au mini-profile "mock-dao" 
+//n'est utile que pour la classe TestServiceDeviseWithDaoMockV1 
+//et n'est plus nécessaire pour la V2 qui utilise @MockBean à la place de @Autowired
+
 @Configuration
 public class WithMockDaoConfig {
 

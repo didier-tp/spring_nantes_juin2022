@@ -2,7 +2,8 @@ package com.mycompany.xyz.service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,23 +11,34 @@ import com.mycompany.xyz.entity.Devise;
 import com.mycompany.xyz.repository.RepositoryDevise;
 
 
-//@Service 
-//@Transactional
+@Service 
+@Transactional
 public class ServiceDeviseV2 implements ServiceDevise{
+	
+	private static Logger logger = LoggerFactory.getLogger(ServiceDeviseV2.class);
+	
 	
 	private RepositoryDevise repositoryDevise;
 	
 	//injection de dépendance par constructeur
 	public ServiceDeviseV2(RepositoryDevise repositoryDevise) {
 		this.repositoryDevise=repositoryDevise;
+		logger.debug("ServiceDeviseV2 instance="+this.toString() 
+		    + " using repositoryDevise="+repositoryDevise.getClass().getName());
 	}
 	
 
 	@Override
-	public double convertir(double montant, String codeDeviseSource, String codeDeviseCible) {
-		Devise deviseSource = repositoryDevise.findById(codeDeviseSource).get();
-		Devise deviseCible = repositoryDevise.findById(codeDeviseCible).get();
-		return montant * deviseCible.getChange() / deviseSource.getChange();
+	public double convertir(double montant, String codeDeviseSource, String codeDeviseCible)
+	 throws NotFoundException {
+		try {
+			Devise deviseSource = repositoryDevise.findById(codeDeviseSource).get();
+			Devise deviseCible = repositoryDevise.findById(codeDeviseCible).get();
+			return montant * deviseCible.getChange() / deviseSource.getChange();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NotFoundException("devise_not_found",e);//ameliorable en précision
+		}
 	}
 
 

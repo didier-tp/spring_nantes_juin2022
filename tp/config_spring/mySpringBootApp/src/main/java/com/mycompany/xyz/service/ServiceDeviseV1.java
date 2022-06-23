@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.xyz.entity.Devise;
@@ -15,16 +17,33 @@ import com.mycompany.xyz.entity.Devise;
  pour premier Tp d'injection de dépendance
  */
 
-@Service
+//@Service
 public class ServiceDeviseV1 implements ServiceDevise{
 	
+	private static Logger logger = LoggerFactory.getLogger(ServiceDeviseV1.class);
+	
+	
    private Map<String,Devise> mapDevises = new HashMap<>();
+   
+   
+
+	public ServiceDeviseV1() {
+		super();
+		logger.debug("ServiceDeviseV1 instance="+this.toString() );
+	}
+
 
 	@Override
-	public double convertir(double montant, String codeDeviseSource, String codeDeviseCible) {
-		Devise deviseSource = rechercherDeviseParCode(codeDeviseSource);
-		Devise deviseCible = rechercherDeviseParCode(codeDeviseCible);
-		return montant * deviseCible.getChange() / deviseSource.getChange();
+	public double convertir(double montant, String codeDeviseSource, String codeDeviseCible) 
+			 throws NotFoundException {
+		try {
+			Devise deviseSource = rechercherDeviseParCode(codeDeviseSource);
+			Devise deviseCible = rechercherDeviseParCode(codeDeviseCible);
+			return montant * deviseCible.getChange() / deviseSource.getChange();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new NotFoundException("devise_not_found",e);//ameliorable en précision
+		}
 	}
 
 

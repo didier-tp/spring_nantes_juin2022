@@ -1,25 +1,32 @@
 package com.mycompany.xyz.test;
 
+//pour assertTrue (res==5) au lieu de Assertions.assertTrue(res==5)
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.mycompany.xyz.MySpringBootApplication;
 import com.mycompany.xyz.entity.Devise;
+import com.mycompany.xyz.partial_config.ServiceAndDaoConfig;
 import com.mycompany.xyz.service.ServiceDevise;
 
-//pour assertTrue (res==5) au lieu de Assertions.assertTrue(res==5)
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(SpringExtension.class)
-@SpringBootTest(classes= {MySpringBootApplication.class})
-@ActiveProfiles("embeddedDb")
+
+//@SpringBootTest
+//@SpringBootTest(classes= {MySpringBootApplication.class})
+@SpringBootTest(classes= {ServiceAndDaoConfig.class})
+@ActiveProfiles({"embeddedDb","partial_config"})
 public class TestServiceDevise {
+	
+	private static Logger logger = LoggerFactory.getLogger(TestServiceDevise.class);
 	
 	@Autowired
 	private ServiceDevise serviceDevise; //à tester
@@ -35,7 +42,7 @@ public class TestServiceDevise {
 	public void testRechercherDevises() {
 		init();
 		List<Devise> listeDevises = serviceDevise.rechercherDevises();
-		System.out.println("listeDevises="+listeDevises);
+		logger.debug("listeDevises="+listeDevises);
 		assertTrue(listeDevises.size()>=4);
 	}
 	

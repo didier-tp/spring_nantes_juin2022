@@ -2,6 +2,8 @@ package com.mycompany.xyz.rest;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,15 @@ public class CompteRestCtrl {
 	
    @Autowired
 	private ServiceCompte serviceCompte;
+   
+   private static Logger logger = LoggerFactory.getLogger(CompteRestCtrl.class);
 	
+	public CompteRestCtrl() {
+	super();
+	logger.debug("CompteRestCtrl instance="+this.toString() );
+	}
+
+
 	//http://localhost:8181/mySpringBootApp/bank-api-rest/public/compte/1
 	@GetMapping("/public/compte/{numCompte}")
 	public Compte getCompteByNum(@PathVariable("numCompte") Long numCompte) {
