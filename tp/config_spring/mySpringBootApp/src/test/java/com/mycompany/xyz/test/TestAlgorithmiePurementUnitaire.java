@@ -75,7 +75,7 @@ public class TestAlgorithmiePurementUnitaire {
 		Mockito.verify(daoDeviseMock, Mockito.times(2)).findById(anyString());
 	}	
 	
-	@Test
+	@Test()
 	public void testConvertirAvecDeviseInconnue() {
 		double montant=100;
 		String codeDeviseSource="EUR";
