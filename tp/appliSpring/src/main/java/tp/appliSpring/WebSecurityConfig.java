@@ -3,6 +3,7 @@ package tp.appliSpring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,6 +21,7 @@ import tp.appliSpring.util.MyNoAuthenticationEntryPoint;
 
 
 @Configuration
+@Profile("withSecurity")
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 //necessary for @PreAuthorize("hasRole('ADMIN or ...')")
@@ -52,7 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private MyNoAuthenticationEntryPoint unauthorizedHandler;
-
+	
+	
+	
 	@Override
 	protected void configure(final HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -73,5 +77,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Custom filter for authenticating users using tokens
 		.addFilterBefore(jwtAuthenticationFilter,
 		UsernamePasswordAuthenticationFilter.class);
-	}
+	} 
 }

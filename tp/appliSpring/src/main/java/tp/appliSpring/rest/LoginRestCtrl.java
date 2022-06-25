@@ -1,6 +1,7 @@
 package tp.appliSpring.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +19,7 @@ import tp.appliSpring.util.JwtTokenProvider;
 
 
 @RestController
+@Profile("withSecurity")
 @RequestMapping(value="/api-bank/public/login" , headers="Accept=application/json")
 public class LoginRestCtrl {
 	

@@ -36,11 +36,11 @@ public class ReInitDefaultDataSet {
 		
 		Client c1 =  clientDao.save(new Client(null,"jean","Bon"));
 		
-		Compte cptA = new Compte(null,"compteA",50.0);
+		Compte cptA = new Compte(null,"compteA",60.0);
 		cptA.setClient(c1);
 		compteService.sauvegarderCompte(cptA);
 		
-		Compte cptB =new Compte(null,"compteB",150.0);
+		Compte cptB =new Compte(null,"compteB",160.0);
 		cptB.setClient(c1);
 		compteService.sauvegarderCompte(cptB);
 		
